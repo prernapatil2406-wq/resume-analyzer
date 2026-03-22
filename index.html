@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>AI Resume Analyzer</title>
+
+<style>
+
+/* GLOBAL */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f4f7f6;
+}
+
+/* NAVBAR */
+.navbar {
+    background: #ffffff;
+    padding: 15px;
+    text-align: center;
+    font-weight: bold;
+    color: #2e7d32;
+    font-size: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+/* HERO */
+.hero {
+    text-align: center;
+    margin-top: 40px;
+}
+
+.hero h1 {
+    color: #2e7d32;
+    margin-bottom: 10px;
+}
+
+.hero p {
+    color: #666;
+}
+
+/* CARD */
+.container {
+    width: 420px;
+    margin: 30px auto;
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+}
+
+/* UPLOAD BOX */
+.upload-box {
+    border: 2px dashed #66bb6a;
+    background: #edf7ee;
+    padding: 25px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+/* HIDE FILE INPUT */
+input[type="file"] {
+    display: none;
+}
+
+/* BUTTON */
+.custom-btn {
+    background: #66bb6a;
+    color: #ffffff;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    display: inline-block;
+}
+
+/* FILE NAME */
+#file-name {
+    margin-top: 10px;
+    color: #444;
+    font-size: 14px;
+}
+
+/* ANALYZE BUTTON */
+button {
+    margin-top: 20px;
+    width: 100%;
+    background: #2e7d32;
+    color: #ffffff;
+    border: none;
+    padding: 12px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+/* RESULT */
+.result {
+    margin-top: 25px;
+}
+
+/* ROLE BADGE */
+.role {
+    background: #c8e6c9;
+    padding: 6px 12px;
+    border-radius: 20px;
+    display: inline-block;
+    margin-bottom: 10px;
+}
+
+/* PROGRESS BAR */
+.progress {
+    background: #ddd;
+    height: 20px;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.progress-bar {
+    height: 100%;
+    width: 0%;
+    background: #4caf50;
+    color: #ffffff;
+    text-align: center;
+    font-size: 12px;
+}
+
+/* TAGS */
+.tag {
+    display: inline-block;
+    background: #c8e6c9;
+    padding: 5px 10px;
+    margin: 4px;
+    border-radius: 6px;
+}
+
+.missing {
+    background: #ffcdd2;
+}
+
+/* FOOTER */
+.footer {
+    text-align: center;
+    margin: 30px;
+    color: #888;
+    font-size: 12px;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="navbar">AI Resume Analyzer 🚀</div>
+
+<div class="hero">
+    <h1>Smart Career Analyzer</h1>
+    <p>Upload your resume and discover the best career path</p>
+</div>
+
+<div class="container">
+
+<form method="POST" enctype="multipart/form-data">
+
+<div class="upload-box">
+
+<label class="custom-btn">
+📄 Upload Resume
+<input type="file" id="resume" name="resume">
+</label>
+
+<p id="file-name">No file selected</p>
+
+<button type="submit">Analyze Resume</button>
+
+</div>
+
+</form>
+
+{% if percentage %}
+
+<div class="result">
+
+<div class="role">🎯 {{ role }}</div>
+
+<h3>ATS Score</h3>
+
+<div class="progress">
+    <div class="progress-bar" id="progress-bar" data-score="{{ percentage }}">
+        {{ percentage }}%
+    </div>
+</div>
+
+<h4>Matched Skills</h4>
+{% for skill in matched %}
+<span class="tag">{{ skill }}</span>
+{% endfor %}
+
+<h4>Missing Skills</h4>
+{% for skill in missing %}
+<span class="tag missing">{{ skill }}</span>
+{% endfor %}
+
+<p><strong>{{ evaluation }}</strong></p>
+
+</div>
+
+{% endif %}
+
+</div>
+
+<div class="footer">
+Built by Prerna Patil • AI Project 💼
+</div>
+
+<script>
+
+/* FILE NAME DISPLAY */
+var fileInput = document.getElementById("resume");
+var fileName = document.getElementById("file-name");
+
+fileInput.addEventListener("change", function () {
+    if (this.files.length > 0) {
+        fileName.textContent = this.files[0].name;
+    } else {
+        fileName.textContent = "No file selected";
+    }
+});
+
+/* PROGRESS BAR (SAFE METHOD) */
+var bar = document.getElementById("progress-bar");
+
+if (bar) {
+    var score = bar.getAttribute("data-score");
+    if (!score) {
+        score = 0;
+    }
+    bar.style.width = score + "%";
+}
+
+</script>
+
+</body>
+</html>
